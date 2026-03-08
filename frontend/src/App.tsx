@@ -14,6 +14,7 @@ const Schedule = React.lazy(() => import("./pages/Schedule"));
 const Settings = React.lazy(() => import("./pages/Settings"));
 const SubjectDetail = React.lazy(() => import("./pages/SubjectDetail"));
 const Milestones = React.lazy(() => import("./pages/Milestones"));
+const Analytics = React.lazy(() => import("./pages/Analytics"));
 import { useAuth } from "./hooks/useAuth";
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -85,6 +86,14 @@ function App() {
             element={
               <Suspense fallback={<LoadingFallback />}>
                 <Milestones />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/analytics"
+            element={
+              <Suspense fallback={<LoadingFallback />}>
+                <Analytics />
               </Suspense>
             }
           />

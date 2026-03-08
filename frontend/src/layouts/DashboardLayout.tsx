@@ -8,6 +8,7 @@ import {
   LogOut,
   GripHorizontal,
   Trophy,
+  BarChart3,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { usePreferences, type NavigationStyle } from "../hooks/usePreferences";
@@ -98,6 +99,7 @@ const DashboardLayout: React.FC = () => {
     { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { path: "/subjects", label: "Subjects", icon: BookOpen },
     { path: "/schedule", label: "Schedule", icon: Calendar },
+    { path: "/analytics", label: "Analytics", icon: BarChart3 },
     { path: "/milestones", label: "Milestones", icon: Trophy },
     { path: "/settings", label: "Settings", icon: Settings },
   ];
