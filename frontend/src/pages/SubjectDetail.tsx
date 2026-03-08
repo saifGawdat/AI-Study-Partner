@@ -34,6 +34,7 @@ const SubjectDetail: React.FC = () => {
       // Also invalidate stats because progress changed
       queryClient.invalidateQueries({ queryKey: ["schedule-stats"] });
       queryClient.invalidateQueries({ queryKey: ["milestones"] });
+      queryClient.invalidateQueries({ queryKey: ["analytics-summary"] });
     },
   });
 
