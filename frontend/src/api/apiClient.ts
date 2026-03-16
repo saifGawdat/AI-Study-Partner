@@ -28,31 +28,30 @@ const processQueue = (error: unknown, token: string | null = null) => {
 };
 
 apiClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    const url = originalRequest?.url || "";
+
     const isAuthUrl =
-      originalRequest.url?.includes("/auth/login") ||
-      originalRequest.url?.includes("/auth/signup") ||
-      originalRequest.url?.includes("/auth/google");
+      url.includes("/auth/login") ||
+      url.includes("/auth/signup") ||
+      url.includes("/auth/google") ||
+      url.includes("/auth/me") ||
+      url.includes("/auth/refresh");
 
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry &&
+      !originalRequest?._retry &&
       !isAuthUrl
     ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
-          .then(() => {
-            return apiClient(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
+          .then(() => apiClient(originalRequest))
+          .catch((err) => Promise.reject(err));
       }
 
       originalRequest._retry = true;
@@ -64,17 +63,19 @@ apiClient.interceptors.response.use(
           {},
           { withCredentials: true },
         );
+
         processQueue(null);
         return apiClient(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
-        // Only redirect if we are not already on the login or signup page
+
         if (
-          !window.location.pathname.includes("/login") &&
-          !window.location.pathname.includes("/signup")
+          window.location.pathname !== "/login" &&
+          window.location.pathname !== "/signup"
         ) {
           window.location.href = "/login";
         }
+
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
