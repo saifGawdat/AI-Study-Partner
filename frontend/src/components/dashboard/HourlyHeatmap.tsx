@@ -37,7 +37,10 @@ const HourlyHeatmap: React.FC<HourlyHeatmapProps> = React.memo(({ data }) => {
   return (
     <div className="w-full h-64">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={chartData} margin={{ top: 8, right: 8, left: 8, bottom: 8 }}>
+        <BarChart
+          data={chartData}
+          margin={{ top: 8, right: 8, left: 8, bottom: 8 }}
+        >
           <XAxis
             dataKey="label"
             tick={{ fill: "#9ca3af", fontSize: 10 }}
@@ -58,12 +61,12 @@ const HourlyHeatmap: React.FC<HourlyHeatmapProps> = React.memo(({ data }) => {
               borderRadius: "8px",
               color: "#fff",
             }}
-            formatter={(value: number, name: string, props: any) => [
-              `${value} tasks completed`,
-              `${props.payload.hour}:00 - ${props.payload.hour + 1}:00`,
-            ]}
           />
-          <Bar dataKey="taskCount" radius={[4, 4, 0, 0]} animationDuration={800}>
+          <Bar
+            dataKey="taskCount"
+            radius={[4, 4, 0, 0]}
+            animationDuration={800}
+          >
             {chartData.map((entry, i) => (
               <Cell
                 key={i}
@@ -81,7 +84,8 @@ const HourlyHeatmap: React.FC<HourlyHeatmapProps> = React.memo(({ data }) => {
       </ResponsiveContainer>
       {peakHour?.taskCount > 0 && (
         <p className="text-xs text-gray-500 mt-2 text-center">
-          Peak productivity: {peakHour.hour}:00–{peakHour.hour + 1}:00 ({peakHour.taskCount} tasks)
+          Peak productivity: {peakHour.hour}:00–{peakHour.hour + 1}:00 (
+          {peakHour.taskCount} tasks)
         </p>
       )}
     </div>
