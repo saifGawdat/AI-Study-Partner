@@ -12,6 +12,7 @@ import aiRoutes from "./routes/ai.routes";
 import scheduleRoutes from "./routes/schedule.route";
 import availabilityRoutes from "./routes/availability.route";
 import gamificationRoutes from "./routes/gamification.route";
+import analyticsRoutes from "./routes/analytics.route";
 import { connectDB } from "./config/db";
 
 const app = express();
@@ -40,6 +41,7 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/availability", availabilityRoutes);
 app.use("/api/gamification", gamificationRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 // Basic Route
 app.get("/", (req, res) => {
