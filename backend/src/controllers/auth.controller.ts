@@ -11,15 +11,15 @@ export class AuthController {
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 15 * 60 * 1000, // 15 minutes
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
@@ -40,15 +40,15 @@ export class AuthController {
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 15 * 60 * 1000, // 15 minutes
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
@@ -81,15 +81,15 @@ export class AuthController {
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 15 * 60 * 1000, // 15 minutes
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
@@ -108,15 +108,15 @@ export class AuthController {
 
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 15 * 60 * 1000, // 15 minutes
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
@@ -135,8 +135,8 @@ export class AuthController {
       if (userId) {
         await AuthService.logout(userId);
       }
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
+      res.clearCookie("accessToken", { httpOnly: true, secure: true, sameSite: "none" });
+      res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "none" });
       res.json({ message: "Logged out successfully" });
     } catch (error: any) {
       res.status(500).json({ message: "Logout failed" });
@@ -149,8 +149,8 @@ export class AuthController {
       const result = await AuthService.deleteAccount(userId);
 
       // Clear cookies after account deletion
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
+      res.clearCookie("accessToken", { httpOnly: true, secure: true, sameSite: "none" });
+      res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "none" });
 
       res.json(result);
     } catch (error: any) {
