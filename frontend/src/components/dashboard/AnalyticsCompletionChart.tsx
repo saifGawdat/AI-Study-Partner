@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  LineChart,
+  
   Line,
   Area,
   AreaChart,
@@ -69,7 +69,6 @@ const AnalyticsCompletionChart: React.FC<AnalyticsCompletionChartProps> =
               color: "#fff",
             }}
             labelStyle={{ color: "#9ca3af" }}
-            formatter={(value: number) => [`${value.toFixed(1)}%`, "Completion"]}
             labelFormatter={(_, payload) => {
               const p = payload[0]?.payload;
               return p ? `${p.displayDate} • ${p.taskCount} tasks` : "";
