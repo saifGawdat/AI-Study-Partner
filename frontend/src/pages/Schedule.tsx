@@ -38,7 +38,7 @@ const SchedulePage: React.FC = () => {
   } | null>(null);
 
   const {
-    data: schedules = [],
+    data: rawSchedules = [],
     isLoading: loadingSchedules,
     error: scheduleError,
     refetch: refetchSchedules,
@@ -46,6 +46,7 @@ const SchedulePage: React.FC = () => {
     queryKey: ["schedules"],
     queryFn: () => scheduleApi.getSchedules(),
   });
+  const schedules = React.useMemo(() => (Array.isArray(rawSchedules) ? rawSchedules : []), [rawSchedules]);
 
   const {
     data: availability = [],

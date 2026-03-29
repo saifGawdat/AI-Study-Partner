@@ -20,6 +20,23 @@ const Analytics: React.FC = () => {
     queryFn: analyticsApi.fetchAnalyticsSummary,
   });
 
+  const hasData = React.useMemo(() => {
+    if (!data) return false;
+    const dailyCompletion = Array.isArray(data.monthly?.dailyCompletion) ? data.monthly.dailyCompletion : [];
+    const subjectPerformance = Array.isArray(data.monthly?.subjectPerformance) ? data.monthly.subjectPerformance : [];
+    const weeklySubjectCompletion = Array.isArray(data.monthly?.weeklySubjectCompletion) ? data.monthly.weeklySubjectCompletion : [];
+    const hourly = Array.isArray(data.hourly) ? data.hourly : [];
+    const predictions = Array.isArray(data.predictions) ? data.predictions : [];
+
+    return (
+      dailyCompletion.some((d) => d.taskCount > 0) ||
+      subjectPerformance.length > 0 ||
+      weeklySubjectCompletion.length > 0 ||
+      hourly.some((h) => h.taskCount > 0) ||
+      predictions.length > 0
+    );
+  }, [data]);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
@@ -40,14 +57,6 @@ const Analytics: React.FC = () => {
       </div>
     );
   }
-
-  const hasData =
-    data &&
-    (data.monthly.dailyCompletion.some((d) => d.taskCount > 0) ||
-      data.monthly.subjectPerformance.length > 0 ||
-      data.monthly.weeklySubjectCompletion?.length > 0 ||
-      data.hourly.some((h) => h.taskCount > 0) ||
-      data.predictions.length > 0);
 
   if (!hasData) {
     return (

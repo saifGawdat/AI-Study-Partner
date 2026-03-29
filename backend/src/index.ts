@@ -49,6 +49,10 @@ app.use("/api/analytics", analyticsRoutes);
 app.get("/", (req, res) => {
   res.send("AI Study Planner API is running...");
 });
+app.use((req, res, next) => {
+  res.removeHeader("Cross-Origin-Opener-Policy");
+  next();
+});
 
 // Error Handling Middleware
 app.use(errorHandler);

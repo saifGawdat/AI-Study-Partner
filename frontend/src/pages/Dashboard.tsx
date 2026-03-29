@@ -45,21 +45,23 @@ const SubjectProgress: React.FC<{ subject: Subject }> = ({ subject }) => {
 };
 
 const Dashboard: React.FC = () => {
-  const { data: subjects = [], isLoading: subjectsLoading } = useQuery({
+  const { data: rawSubjects = [], isLoading: subjectsLoading } = useQuery({
     queryKey: ["subjects"],
     queryFn: subjectService.getSubjects,
   });
+  const subjects = React.useMemo(() => (Array.isArray(rawSubjects) ? rawSubjects : []), [rawSubjects]);
 
   const { data: statsData, isLoading: statsLoading } = useQuery({
     queryKey: ["schedule-stats"],
     queryFn: scheduleApi.getStatistics,
   });
 
-  const stats = (statsData as unknown as DashboardStats) || {
-    finishedToday: 0,
-    totalSubjects: 0,
-    streak: 0,
-    activityData: [],
+  const safeStatsData = statsData as unknown as Partial<DashboardStats> | undefined;
+  const stats: DashboardStats = {
+    finishedToday: safeStatsData?.finishedToday ?? 0,
+    totalSubjects: safeStatsData?.totalSubjects ?? 0,
+    streak: safeStatsData?.streak ?? 0,
+    activityData: Array.isArray(safeStatsData?.activityData) ? safeStatsData.activityData : [],
   };
 
   const loading = subjectsLoading || statsLoading;
@@ -144,7 +146,7 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
                   <span className="text-xs text-gray-500 font-medium bg-black/40 px-2 py-1 rounded-full border border-white/5">
-                    {subject.chapters.length} Chapters
+                    {subject.chapters?.length || 0} Chapters
                   </span>
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2 group-hover:text-(--accent-emerald) transition-colors">

@@ -49,10 +49,12 @@ const MilestonesPage: React.FC = () => {
     setActiveFilter(tab);
   }, []);
 
-  const filteredMilestones =
-    data?.milestones.filter(
+  const filteredMilestones = React.useMemo(() => {
+    const milestones = Array.isArray(data?.milestones) ? data.milestones : [];
+    return milestones.filter(
       (m) => activeFilter === "all" || m.category === activeFilter,
-    ) ?? [];
+    );
+  }, [data, activeFilter]);
 
   const summary = data?.summary;
 

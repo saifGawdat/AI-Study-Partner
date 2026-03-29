@@ -30,7 +30,7 @@ const Subjects: React.FC = () => {
   const deleteTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const {
-    data: subjects = [],
+    data: rawSubjects = [],
     isLoading,
     error,
     refetch,
@@ -38,6 +38,7 @@ const Subjects: React.FC = () => {
     queryKey: ["subjects"],
     queryFn: subjectService.getSubjects,
   });
+  const subjects = React.useMemo(() => (Array.isArray(rawSubjects) ? rawSubjects : []), [rawSubjects]);
 
   const createMutation = useMutation({
     mutationFn: subjectService.createSubject,

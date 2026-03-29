@@ -156,8 +156,8 @@ const Settings: React.FC = () => {
                     Availability
                   </p>
                   <p className="text-white font-medium">
-                    {user.availability.weekdayMinutes}m Weekdays /{" "}
-                    {user.availability.weekendMinutes}m Weekends
+                    {user.availability?.weekdayMinutes ?? 0}m Weekdays /{" "}
+                    {user.availability?.weekendMinutes ?? 0}m Weekends
                   </p>
                 </div>
               </div>

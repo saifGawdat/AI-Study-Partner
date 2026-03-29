@@ -13,13 +13,14 @@ interface CalendarViewProps {
 }
 
 const CalendarView: React.FC<CalendarViewProps> = ({
-  schedules,
+  schedules: rawSchedules,
   selectedDate,
   onDateSelect,
   onTaskClick,
   onTaskDelete,
   onTaskToggle,
 }) => {
+  const schedules = React.useMemo(() => (Array.isArray(rawSchedules) ? rawSchedules : []), [rawSchedules]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const getDaysInMonth = (date: Date) => {
